@@ -1,554 +1,630 @@
-" ====================
-"  Shortcut Übersicht
-" ====================
+" ======================
+"  Marschal's Vimrc-File
+" ======================
+" taken from Thorstel
 "
-" Pfeiltasten
-" -----------
-"  Rechts       -   nächster Buffer
-"  Links        -   vorheriger Buffer
-"  Oben         -   öffne / schließe Taglist
-"  Unten        -   öffne / schließe NERDTree-Explorer
+" Shortcut Overview
+" =================
+"
+" Arrow Keys
+" ----------
+"  right        -   next buffer
+"  left         -   previous buffer
+"  up           -   toggle Tagbar-view
+"  down         -   toggle NERDTree-Explorer
 "
 " Insert Mode
 " -----------
-"  Ctrl-a       -   Anfang der Zeile
-"  Ctrl-e       -   Ende der Zeile
-"  Ctrl-f       -   ein Zeichen vor
-"  Ctrl-b       -   ein Zeichen zurück
+"  Ctrl-a       -   jump to the beginning of line
+"  Ctrl-e       -   jump to the end of line
+"  Ctrl-f       -   one character forward
+"  Ctrl-b       -   one character backward
+"  Ctrl-Space   -   code completion
 "  Shift-Enter  -   ESC
 "  Ctrl-Enter   -   ESC
 "
 " Normal Mode
 " -----------
-"  Space        -   Scrolle nach unten (halbe Seite)
-"  Shift-Space  -   Scrolle nach oben (halbe Seite)
-"  ,a           -   Wechseln zwichen aktivem und alternativem Buffer
-"  ,b           -   Bufferübersicht (LustyJuggler / Ruby-Vim)
-"  ,d           -   aktuellen Buffer schließen
-"  ,h           -   Highlighting der Suchfunktion ausschalten
-"  ,jr          -   kompiliert und führt die aktuelle Java-Datei aus
-"  ,l           -   Zeilenangaben an/aus
-"  ,m           -   maximiert das Fenster
-"  ,n           -   Wiederherstellung des Standardfensters
-"  ,q           -   öffnet das Quickfix-Fenster
-"  ,qc          -   schließt das Quickfix-Fenster
-"  ,s           -   Rechtschreibprüfung an / aus
-"  ,t           -   überflüssige Leerzeichen an den Zeilenenden löschen
-"  ,v           -   öffne die vimrc
-"  ,w           -   schaltet den Umbruch von zu langen Zeilen an / aus
-"  ,,w          -   EasyMotion Plugin
-"  Q            -   Formatiert den Text neu
-"  Ctrl-p       -   öffnet das PDF-Pendant zum aktiven Buffer
-"  Ctrl-F10     -   erstellt eine Tag-Datenbank im aktuellen Verzeichnis
-"  Ctrl-F11     -   macht das Fenster um 10 Spalten schmaler
-"  Ctrl-F12     -   macht das Fenster um 10 Spalten breiter
+"  Space        -   scroll down half a page
+"  Shift-Space  -   scroll up half a page
+"  Tab          -   invoke Tabularize Plugin
+"  Ctrl-b       -   invoke EasyMotion goto character in backward direction
+"  Ctrl-f       -   invoke EasyMotion goto character in foreward direction
+"  Ctrl-h       -   select window left to the current window
+"  Ctrl-j       -   select window below the current window
+"  Ctrl-k       -   select window above the current window
+"  Ctrl-l       -   select window right to the current window
+"  Ctrl-e       -   open CtrlP Path explorer
+"  ,a           -   switch between active and alternate buffer
+"  ,b           -   open CtrlP Buffer explorer
+"  ,cr          -   compiles and runs the active c-file (gcc)
+"  ,d           -   delete current buffer
+"  ,e           -   open CtrlP Path explorer
+"  ,h           -   turn off highlighting
+"  ,jr          -   compiles ands runs the active java-file
+"  ,l           -   switch between relative and absolute line number display
+"  ,m           -   maximize the window
+"  ,n           -   restore the default window
+"  ,q           -   open quickfix view
+"  ,qc          -   close quickfix view
+"  ,s           -   toggle spelling
+"  ,sl          -   load vim session from default file
+"  ,sr          -   compile and run the active scala file
+"  ,ss          -   save current vim session to default file
+"  ,t           -   delete trailing whitespaces manually
+"  ,u           -   open view for the Gundo PlugIn
+"  ,v           -   open the vimrc file
+"  ,w           -   toggle line wrapping at window-borders
+"  Q            -   reformat the text (shortcut for gq)
+"  Ctrl-p       -   open pdf-equivalent to the active buffer
+"  Ctrl-F10     -   create tag-database of the current location
+"  Ctrl-F11     -   remove 10 columns from the window
+"  Ctrl-F12     -   add 10 columns to the window
 "
 " Mac OS X only
 " -------------
-"  Cmd-0..9     -   wähle den Tab Nr. 0..9 aus
-"  Cmd-i        -   Check-In der Datei im aktiven Buffer (RCS)
-"  Cmd-k        -   Verschiebe den ausgewählten Text nach oben
-"  Cmd-j        -   Verschiebe den ausgewählten Text nach unten
+"  Cmd-0..9     -   select Tab no. 0 to 9
+"  Cmd-i        -   shortcut for ci -l of the active buffer (RCS)
+"  Cmd-k        -   move selected text up
+"  Cmd-j        -   move selected text down
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-" ==========================
-"  Allgemeine Einstellungen
-" ==========================
-
-" Pathogen setup
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
-
-
-" Nicht streng an vi orientiert
+" don't force strict vi-compatibility
 set nocompatible
 
-" Automatische Datei-Erkennung
+" enable Pathogen PlugIn-Manager
+call pathogen#infect()
+
+" *** General Settings *** {{{
+
+" automatic file identification
 filetype indent plugin on
 
-" Syntax-Highlight
+" turn syntax-highlighting on
 syntax on
+" stop coloring very long lines
+set synmaxcol=512
 
-" Musthave! Standard Backspace ist der Tod. Meistens ohnehin so definiert,
-" aber nur zur Sicherheit
+" set backspace behaviour. Should be default anyway - just in case it is not
 set backspace=indent,eol,start
 
-" Syntax-Highlighting für Doxygen-Kommentare
+" special syntax-highlighting for Doxygen-comments
 let g:load_doxygen_syntax=1
 
-" Damit LaTeX-Suite auch neue Dateien erkennt, betrifft nur Vim7?!
+" is needed for applying latex-rules on newly created files
 let g:tex_flavor='latex'
 
-" Das Errorformat soll zwischen Warnung und echtem Error unterscheiden
-" können
+" set errorformat so it can differ between real errors and warnings
 let &errorformat="%f:%l:%c: %t%*[^:]:%m,%f:%l: %t%*[^:]:%m," . &errorformat
 
-" Dateiformate
+" self-explanatory - prefer unix over dos over mac formats
 set fileformats=unix,dos,mac
 
-" automatische, intelligente Einrückungen
+" use unicode
+set encoding=utf-8
+
+" automatic smart indenting is set
 set autoindent
 set smartindent
 
-" Datei wird automatisch neugeladen, wenn von außen geändert
+" if a file is changed outside of vim, reload it automatically
 set autoread
 
-" Mauszeiger darf überall hin
+" cursor can be placed everywhere on the screen, even if there are no
+" characters
 set virtualedit=all
 
-" Verzeichnis für .swp-Files
+" directory for the vim swap-files
 set directory=~/.vimtmp
 
-" Lege Backups an
-set backup
-set backupdir=~/.vimbackup
-
-" Setz den Pfad für :find / ** für Rekursion
-if has("mac")
-    set path+=~/Uni/**,~/LaTeX/**,~/Programmierung/Cpp/**,~/MaTA/**
-endif
-
-" Erlaubt Buffer-Wechsel, auch wenn nicht gespeichert
+" allow switching buffers, even if the active buffer is not saved
 set hidden
 
-" Kannst dir ruhig ein bisschen was merken :)
+" size of the history-file
 set history=1000
 
-" Halt's Maul und blink net!
+" I don't want to hear or see any 'bell' indications
 set visualbell t_vb=
 
-" Immer die Statusleiste anzeigen / nicht nur bei Split-Window
+" statusline is always displayed - not only in split view
 set laststatus=2
 
-" Zeigt in der Statuszeile folgendes an: Buffer-Nr, Dateiname,
-" Bearbeitungsstatus (in Warnfarbe), Dateiformat + Codierung, aktelle Zeile
-" und Spalte, Dezimal- und Hex-Wert des Zeichens unter dem Cursor
-set statusline=%#StatusLine#\ \|%#Folded#\ %02n\ %#StatusLine#\|
-            \\ \"%f\"\ %#ErrorMsg#%w%r%m%#StatusLine#%=
-            \\ [%{&filetype}\|%{&fileformat}\|%{&fileencoding}]
-            \\ \ [L:%3l/%L,\ C:%2v]\ \ [%3b\|0x%-2B]
+" statusline layout (without powerline)
+"set statusline=%#StatusLine#\ \|%#Folded#\ %02n\ %#StatusLine#\|
+      "\\ \"%f\"\ %#ErrorMsg#%w%r%m%#StatusLine#%=
+      "\\ [%{&filetype}\|%{&fileformat}\|%{&fileencoding}]
+      "\\ \ [L:%3l/%L,\ C:%2v]\ \ [%3b\|0x%-2B]
 
-" Ordnerpfade werden immer mit / getrennt, Backslash bei Windoof entfällt
+" directory paths always use forward-slashes, even on windows
 set shellslash
 
-" Standard-Textbreite von 75 Zeichen
-set textwidth=75
-" Der Text wird nur in Kommentaren automatisch umgebrochen
+" wrap text after 78 characters
+set textwidth=78
+" always wrap text in comments
 set formatoptions=crq
 
-" Zeigt Position des Cursors an
+" show current position of the cursor
 set ruler
 
-" Zeigt Modus am Ende des Fensters an
+" show which mode I'm in
 set showmode
 
-" Zeigt das aktuelle Kommando unten rechts an
+" show the current command on the bottom right corner
 set showcmd
 
-" aktiviert die Benutzung der Maus
+" activate mouse
 set mouse=a
-" Blendet den Mauszeiger beim tippen aus
+" hide the mouse-cursor while using the keyboard
 set mousehide
 
-" Ab 5 Zeilen vor Anfang/Ende des Fensters wird gescrollt
+" scroll text 5 lines before the cursor hits the bottom/top of the window
 set scrolloff=5
 
-" Zeichnet den Bildschirm beim ausführen eines Makros nicht ständig neu
+" don't redraw the screen while using a macro
 set lazyredraw
 
-" Standard Einrückung sei 4, keine echten Tabs benutzen!
+" code indentation of 2 spaces - do not use real tabs
 set expandtab
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
 set shiftround
-" Echte Tabs werden durch ▸ gekennzeichnet und angezeigt, Trailings werden
-" durch • gekennzeichnet, damit sie entdeckt und entfernt werden können
-set listchars=tab:▸\ ,trail:• ",eol:¬
+
+" show tabs and trailing spaces
+set listchars=tab:»\ ,trail:· ",eol:¬
 set list
 
-" Markiert Suchergebnisse
+" highlight search results
 set hlsearch
-" Interaktive Suche, schon während der Eingabe
+" interactive search while typing
 set incsearch
-" Keine Unterscheidung zwischen Groß und Kleinschreibung beim Suchen, aber
-" trotzdem darauf reagieren, wenn Groß-Klein-Muster im Suchbegriff
-" auftauchen
+" usually use ignorecase while search except when capital letters are used
 set ignorecase
 set smartcase
 
-" Zusammenfassen vom Klammern
+" code folding via standard markers
 set foldmethod=marker
-" Wird nicht automatisch beim Laden der Datei zusammen gefasst
-set nofoldenable
-" Faltungen bei folgenden Aktionen öffnen:
+" fold code automatically
+set foldenable
+" open fold, if one of these commands is used within a closed fold
 set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
 
-" Verbessert Auto-Vervollständigung, ignoriere bestimmte Datei-Arten
+" use wildmenu for command completion and ignore certain files-endings
 set wildmenu
 set wildignore=*.o,*.class,*.toc,*.aux
 
-" Zwei Zeilen für die Kommando-Eingabe
+" two lines for the command line
 set cmdheight=2
 
-" Entfernt die Zeichen bei der Fenster-Trennung
+" don't use any characters in the window-separators
 set fillchars=""
 
-" Leerzeichen werden bei Diff ignoriert
+" ignore whitespaces in diff-mode
 set diffopt+=iwhite
 
-" deutsche und englische Sprache für Rechtschreibprüfung
+" use german and english for spell checking
 set spelllang=de,en
 
-" Deutschen Wörterbuch aus Openoffice, Mathematisches Wörterbuch
-"set dict+=~/.vimdict/de_De_frami.de.utf-8.add
-"set dict+=~/.vimdict/de_dfew.de.utf-8.add
+" custom mappings begin with ,
+let mapleader=','
 
-" Sagt der Autovervollständigung, dass diese auch im Wörterbuch suchen soll
-set complete=.,w,b,u,t,i,k,kspell
+" do not scan included files for completion (removed 'i'-option)
+set complete=.,w,b,u,t
 
-" 7.3 Features
+" 7.3 features
 if version >= 703
-    " ab Version 7.3 persistentes Undo:
-    " XXX: könnte bei intensivem Gebrauch viel Speicherplatz brauchen. Kaum
-    " bearbeitete Datei -> 33 kB Undo-History
-    "set undofile
-    "set undodir=~/.vimundo
+  " in vim 7.3 persitant undo was added - creates very large undo-histories
+  "set undofile
+  "set undodir=~/.vimundo
 
-    " Schaltet das Conceal-Feature für Version 7.3 ein
-    set conceallevel=2
-
-    " Conceal in LaTeX für accents, delimters, greek & math aktivieren
-    let g:tex_conceal="adgm"
+  " turn off the conceal feature (for example replace latex code with the
+  " accordant unicode-character)
+  set conceallevel=0
+  " conceal in LaTeX for accents, delimters, greek & math
+  let g:tex_conceal="adgm"
+  "let g:tex_conceal="adg"
 endif
 
-" Definiere eigenen Mapleader
-let mapleader = ","
-
-" Einstellungen für Latexmk
-"let g:LatexBox_viewer = 'skim'
-"let g:LatexBox_latexmk_options = '-pvc'
-
-" ==============================
-"  Autocommands - Einstellungen
-" ==============================
+" }}}
+" *** Autocommands *** {{{
 
 augroup VIMRC
 
-    " entferne alle zuvor definierten Autocommands dieser Gruppe
-    autocmd!
+  " clear all previous autocommands
+  autocmd!
 
-    " Wechselt automatisch ins Verzeichnis der geöffneten Datei
-    autocmd BufEnter * :silent! lcd %:p:h
+  " change directory according to the active file
+  autocmd BufEnter * :silent! lcd %:p:h
 
-    " Rechschreibprüfung in LaTeX aktivieren
-    autocmd BufRead,BufNewFile *.tex,*.txt setlocal spell
+  " always activate spelling in LaTeX, txt-Files and MDown-Files
+  autocmd BufRead,BufNewFile *.tex,*.txt,*.mkd setlocal spell
 
-    " In LaTeX- / txt-Dateien wird sämtlicher Text umgebrochen / formatiert
-    autocmd BufRead,BufNewFile *.tex,*.txt setlocal formatoptions+=t
+  " always wrap text in LaTeX
+  autocmd BufRead,BufNewFile *.tex,*.txt,*.mkd setlocal formatoptions+=t
 
-    " In LaTeX-, PHP- und HTML-Dateien nur um 2 Stellen einrücken
-    autocmd BufRead,BufNewFile *.tex,*.php,*.html setl tabstop=2 shiftwidth=2 softtabstop=2
+  " update ctags database in C++ if a header is changed
+  autocmd BufWritePost *.h,*.hpp :silent! :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .
 
-    " keine Backups von Dateien aus meinem verschlüsselten Verzeichnis
-    if has("mac")
-        autocmd BufRead,BufNewFile /Volumes/NOT\ FOR\ YOU/** set nobackup
-    else
-        autocmd BufRead,BufNewFile /media/NOT\ FOR\ YOU/** set nobackup
-    endif
-    " XXX: Wird nur benötigt wenn Undofiles benutzt werden
-    "autocmd BufRead,BufNewFile /Volumes/NOT\ FOR\ YOU/** setl noundofile
+  " do not show special characters in terminal view (PLUGIN!)
+  autocmd FileType conque_term setl nolist
 
-    " Alles was über 80 Zeichen in einer Zeile hinausgeht wird farbig markiert
-    "autocmd BufNewFile,BufRead * match ErrorMsg /\%81v.*/
-    "autocmd BufRead * highlight OverLength ctermbg=darkgrey guibg=#FFCCFF
-    "autocmd BufRead * match OverLength /\%80v.*/
+  " reload the vimrc file if changed
+  autocmd BufWritePost vimrc.vim,.vimrc source $MYVIMRC
 
-    " aktualisiere Tags für C++ Dateien nach Veränderungen des Headers
-    autocmd BufWritePost *.h,*.hpp :silent! :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .
+  " set compiler to javac for java-files
+  autocmd Filetype java setl makeprg=javac\ %
 
-    " In dem Terminal Emulator müssen Leerzeichen nicht angezeigt werden
-    autocmd FileType conque_term setl nolist
+  " set compiler to scalac for scala-files
+  autocmd Filetype scala setl makeprg=scalac\ %
 
-    " Bei dem Taglist-Fenster nicht die Standard-Statuszeile anzeigen
-    autocmd FileType taglist setl statusline=Taglist
+  " set compiler to gcc for c-files
+  autocmd Filetype c setl makeprg=gcc\ -Wall\ -o\ %:t:r\ %
 
-    " Lädt die vimrc nach dem Bearbeiten automatisch neu
-    autocmd BufWritePost vimrc.vim,.vimrc source $MYVIMRC
+  " set compiler to pdflatex for LaTeX-Code
+  autocmd Filetype tex setl makeprg=pdflatex\ %
 
-    " Wenn es sich um eine Java-Datei handelt, nutze den Standard-Compiler
-    " und benutze eine Einrückung von zwei Leerstellen
-    autocmd Filetype java setl makeprg=javac\ %
+  " java code-completion with javacomplete-PlugIn
+  autocmd Filetype java setl omnifunc=javacomplete#Complete
 
-    " Java Code-Vervollständigung mit javacomplete-PlugIn
-    autocmd Filetype java setl omnifunc=javacomplete#Complete
+  " visualbell has to be silenced again if a GUI is entered
+  autocmd GuiEnter * set visualbell t_vb=
 
-    " Muss wiederholt werden, sobald ein GUI gestartet wird
-    autocmd GuiEnter * set visualbell t_vb=
+  " make the current file executable if it's a shellscript
+  autocmd BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "/bin/" | silent !chmod +x <afile> | endif | endif
 
-    " Wenn es sich bei der geöffneten Datei um ein Script handelt, mache es
-    " nach dem Speichern ausführbar
-    autocmd BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "/bin/" | silent !chmod +x <afile> | endif | endif
+  " set compiler for graphviz dot
+  autocmd Filetype dot setl makeprg=dot\ -Tpdf\ %\ >%:t:r.pdf
+  "autocmd Filetype dot setl makeprg=neato\ -Tpdf\ %\ >%:t:r.pdf
 
-    " Stelle den Compiler entsprechen für Dot-Graphen ein
-    autocmd Filetype dot setl makeprg=dot\ -Tpdf\ %\ >%:t:r.pdf
-    "autocmd Filetype dot setl makeprg=neato\ -Tpdf\ %\ >%:t:r.pdf
+  " remove trailing characters before saving a file
+  autocmd BufWritePre * call <SID>DeleteTrailings()
+
+  " settings for pandoc markdown
+  autocmd Filetype pandoc setl makeprg=pandoc\ -s\ -c\ pandoc-stylesheet.css\ %\ -o\ %:t:r.html
+  autocmd Filetype pandoc setl ts=4 sts=4 sw=4
+  " automatically compile Pandoc files after saving
+  autocmd! BufWritePost * if &ft == 'pandoc' | silent make | endif
+
 augroup END
 
-" ========================
-"  PlugIn - Einstellungen
-" ========================
+" }}}
+" *** PlugIn - Settings *** {{{
 
-" Taglist Optionen
-let Tlist_Ctags_Cmd = 'ctags'
-let Tlist_Exist_OnlyWindow = 1
-let Tlist_Enable_Fold_Column = 0
-let Tlist_Use_Right_Window = 1
-let Tlist_WinWidth = 30
-" für PHP nicht alle möglichen Variablen auflisten
-let tlist_php_settings = 'php;c:class;d:constant;f:function'
-
-" Dateibrowser soll 30 Spalten breit sein
-let NERDTreeWinSize = 30
-" Lesezeichen immer anzeigen
+" file browsers width is 40 columns
+let NERDTreeWinSize = 40
+" always display bookmarks
 let NERDTreeShowBookmarks=0
 
-" cppcomplete soll kein Preview-Fenster zeigen
+" no preview window for cppcomplete
 set completeopt=menuone
-" ersten Treffer der Autovervollständigung auswählen, aber nicht
-" ausschreiben
+" select first match for code completion but don't replace before confirmed
 let OmniCpp_SelectFirstItem = 2
 let OmniCpp_GlobalScopeSearch = 1
 let OmniCpp_ShowPrototypeInAbbr = 1
 let OmniCpp_ShowAccess = 1
-" Datenbanken für die Systemfunktionen / C++ STL / QT-Lib
-set tags+=~/.vimtags/commontags,~/.vimtags/stltags,~/.vimtags/qttags
+" tag-databases for system / C++ STL / QT-Lib
+"set tags+=~/.vimtags/commontags,~/.vimtags/stltags,~/.vimtags/qttags
 
-" =====================
-"  GUI - Einstellungen
-" =====================
-" mein Colorscheme, nur GUI
-"colo marschal
+" SuperTab Completion
+" -------------------
+" do not use standard <tab> to complete code, that is reserved for snipMate
+" use ctrl-space completion insted (Eclipse-like)
+let g:SuperTabMappingForward = '<C-Space>'
+
+" EasyMotion
+" ----------
+" all EasyMotion commands are triggered with double pressing leader key
+let g:EasyMotion_leader_key = '<leader><leader>'
+
+" CtrlP
+" -----
+" CtrlP Plugin is invoked with ctrl-e
+let g:ctrlp_map = '<c-e>'
+let g:ctrlp_cmd = 'CtrlP'
+" work with dircetory of current file
+let g:ctrlp_working_path_mode = 1
+" do not rebuild cache every time called the first time after start up
+let g:ctrlp_clear_cache_on_exit = 0
+
+" Powerline
+" ---------
+let g:Powerline_theme = 'default'
+let g:Powerline_colorscheme = 'default'
+
+" Syntastic
+" ---------
+let g:syntastic_error_symbol='✗'
+let g:syntastic_warning_symbol='⚠'
+let g:syntastic_mode_map = { 'mode': 'passive',
+                            \ 'active_filetypes': [],
+                            \ 'passive_filetypes': [] }
+
+" }}}
+" *** UI / GUI - Settings *** {{{
+
+" show line numbers
+set number
+" display line numbers with 5 digits
+set numberwidth=5
+
+" colorscheme setup
+let g:solarized_visibility="low"
+let g:solarized_contrast="normal"
+" I like the degraded color palette of solarized better
+let g:solarized_degrade=1
+set background=dark
 colo solarized
 
-" Ändert Hintergrundfarbe des Solorized Farbschemas
-let g:solarized_degrade=1
-set bg=dark
-
-
-if has("gui_running")
-    " Entfernt unnötigen GUI-Krams
-    set guioptions=ace
-    " Tableiste immer anzeigen
-    set showtabline=2
-    " Zeigt Zeilennummern an
-    set number
-    " Zeilennummern werden bis 99999 ohne Verzerrung des Layouts
-    " dargestellt
-    set numberwidth=6
-    " Anzahl der Spalten
-    set co=105
-    " Die Spalten ab Zeile 80 werden farbig markiert (7.3- Feature)
-    if version >= 703
-        set colorcolumn=81
-    endif
-    " Anzahl der Zeilen (zu hohe Angabe maximiert das Fenster)
-    set lines=999
-    " Der Cursor muss im Normal-Mode nicht wie blöde blinken...
-    set gcr=n:blinkon0
+" columns from 80 shall be in a different color (vim 7.3 feature)
+if version >= 703
+    set colorcolumn=81,82,83,84,85
 endif
 
-" ===========
-"  FUNCTIONS
-" ===========
+" do not highlight the line where the cursor is at
+set nocursorline
 
-" Entfernt sämtliche Trailings aus der Datei
+if has("gui_running")
+  colo solarized
+
+  " minimalistic GUI - I don't need no fancy buttons
+  set guioptions=ac
+  " only show tabline if more than one tab page is present
+  set showtabline=1
+  " number of colums
+  set co=90
+  " total number of lines of the window (statusline and command line included!)
+  set lines=60
+  " cursor only blinks in insert mode
+  set gcr=n:blinkon0
+  " favorite font for coding so far
+  "set guifont=Anonymous\ Pro:h12
+  " patched Anonymous Pro font for Powerline Plugin
+  set guifont=Anonymous\ Pro\ for\ Powerline:h12
+  " enable status line decorations in gui vim
+  let g:Powerline_symbols = 'fancy'
+endif
+
+" }}}
+" *** Custom Functions *** {{{
+
+" delete all trailings in the active buffer
 function! <SID>DeleteTrailings()
-    let _s=@/
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    let @/=_s
-    call cursor(l, c)
+  let _s=@/
+  let l = line(".")
+  let c = col(".")
+  %s/\s\+$//e
+  let @/=_s
+  call cursor(l, c)
 endfunction
 
-" setzt automatisch geschweifte Klammern (wie in Eclipse)
+" places {} at the end of the line
 function! <SID>PlaceCurlyBraces()
   s/\s*$/ {}
 endfunction
 
-" ==========
-"  MAPPINGS
-" ==========
+" toggle between a light and a dark colorscheme
+let g:thorstel_darkbg=0
+function! <SID>ToggleColorScheme()
+  if (g:thorstel_darkbg == 1)
+    set bg=light
+    colo github
+    let g:thorstel_darkbg = 0
+  else
+    set bg=dark
+    colo solarized
+    let g:thorstel_darkbg = 1
+  endif
+endfunction
 
-" Textergänzung wie in Eclipse
-inoremap <C-space> <C-p>
+" function for switching between relative and absolute line numbers
+function! <SID>SwitchLineNumbers()
+  if (&relativenumber == 1)
+    set number
+  else
+    set relativenumber
+  endif
+endfunction
 
-" Cursor soll zwischen den Klammern positioniert werden
+" restores the default window settings. call with <leader>n
+function! <SID>DefaultWindow()
+  NERDTreeClose
+  TagbarClose
+  set co=90
+  set lines=60
+endfunction
+
+" }}}
+" *** Mappings *** {{{
+
+" place cursor between braces / quotes
 inoremap () ()<Left>
 inoremap [] []<Left>
 inoremap {} {}<Left>
 inoremap "" ""<Left>
 inoremap '' ''<Left>
+" LaTeX-Math
+inoremap $$ $$<Left>
 
-" geschweifte Klammer-Ergänzung wie in Eclipse
-inoremap {<CR> {}<Left><CR><CR><Up><Tab>
+" curly brace completion like in eclipse
+inoremap <silent> {<CR> <Esc>:call <SID>PlaceCurlyBraces()<CR>$i<CR><CR><Up><Tab>
 
-" Im Insert-Mode Navigation in der Zeile wie in Emacs
+" place ; always at the end of a line in insert mode
+inoremap ; <End>;
+
+" emacs-like insert mode navigation
 inoremap <C-f> <Right>
 inoremap <C-b> <Left>
 inoremap <C-e> <End>
 inoremap <C-a> <Home>
 
-" Alternativen zu ESC
+" alternatives for the escape button
 noremap <C-CR> <ESC>
 noremap <S-CR> <ESC>
 inoremap <C-CR> <ESC>
 inoremap <S-CR> <ESC>
 
-" Im Normal-Mode Scrollen mit Space
+" scroll in normal mode with space
 noremap <space> <C-d>
 noremap <S-space> <C-u>
 
-" Tabs lassen sich wie in Firefox ansprechen. OS X only
+" window navigation in normal mode
+noremap <C-h> <C-w>h
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
+
+" center around line with current search result
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *zz
+nnoremap # #zz
+nnoremap g* g*zz
+nnoremap g# g#zz
+
+" make the Easymotion goto-character-function more accessible
+nnoremap <C-f> :call EasyMotion#F(0,0)<CR>
+nnoremap <C-b> :call EasyMotion#F(0,1)<CR>
+
+" change tabs firefox style with command-0..9 (Mac only)
 if has("mac")
-    map <D-1> 1gt
-    map <D-2> 2gt
-    map <D-3> 3gt
-    map <D-4> 4gt
-    map <D-5> 5gt
-    map <D-6> 6gt
-    map <D-7> 7gt
-    map <D-8> 8gt
-    map <D-9> 9gt
-    map <D-0> :tablast<CR>
+  map <D-1> 1gt
+  map <D-2> 2gt
+  map <D-3> 3gt
+  map <D-4> 4gt
+  map <D-5> 5gt
+  map <D-6> 6gt
+  map <D-7> 7gt
+  map <D-8> 8gt
+  map <D-9> 9gt
+  map <D-0> :tablast<CR>
 endif
 
-" gf soll immer die Datei unter dem Cursor öffnen, auch wenn diese noch
-" nicht existiert
+" always open file under cursor - even if it does not exist
 map <silent> gf :e <cfile><CR>
 
-" schaltet Zeilenanzeige an / aus
-noremap <silent> ,l :set number!<CR>
+" turn off hlsearch
+noremap <silent> <leader>h :noh<CR>
 
-" Entfernt sämtliche Trailings mit Hilfe der zuvor definierten Funktion
-noremap <silent> ,t :call <SID>DeleteTrailings()<CR>
+" toggle spell checking
+noremap <silent> <leader>s :set spell! <CR>
 
-" Schalte die hervorgehobene Suche aus
-noremap <silent> ,h :noh<CR>
+" shortcut for editing the vimrc file
+noremap <silent> <leader>v :e ~/.vimrc<CR>
 
-" Schaltet die Rechtschreibprüfung an und aus
-noremap <silent> ,s :set spell! <CR>
+" switch between active and alternate buffer
+noremap <silent> <leader>a :b#<CR>
 
-" Öffnet die Bufferliste des LustyJuggler-PlugIns
-noremap <silent> ,b :LustyJuggler<CR>
+" open Gundo-PlugIn view
+noremap <silent> <leader>u :GundoToggle<CR>
 
-" Shortcut zum schnellen Bearbeiten der VIMRC
-noremap <silent> ,v :e ~/.vimrc<CR>
+" close the active buffer
+noremap <silent> <leader>d :bd<CR>
 
-" switched zwischen dem aktuellen und alternativen Buffer
-noremap <silent> ,a :b#<CR>
+" toggle line wrapping
+noremap <silent> <leader>w :set wrap!<CR>
 
-" schließe den aktuellen Buffer
-noremap <silent> ,d :bd<CR>
-
-" schaltet den angezeigten Umbruch bei zu langen Zeilen an / aus
-noremap <silent> ,w :set wrap!<CR>
-
-" Check-In der Datei mit Command + i (OS X only)
+" RCS checkin of current file on Mac OS X
 if has("mac")
     map <silent> <D-i> :!ci -l % <CR>
 endif
 
-" Öffnet den PDF-Pendant zum aktuellen Buffer mit dem Standard-PDF-Viewer.
-" Funktioniert in dieser Form nur unter OS X, für andere Betriebssysteme
-" 'open' durch das entsprechende Programm ersetzen.
-map <silent> <C-p> :!open %:t:r.pdf<CR>
+" switch between absolute and relative line numbers (only vim 7.3 and after)
+if version >= 703
+  nnoremap <silent> <leader>l :call <SID>SwitchLineNumbers()<CR>
+else
+  nnoremap <silent> <leader>l :set number!<CR>
+endif
 
-" Zeigt den Filebrowser auf der linken Seite an (erfordert das NERDTree-Plugin)
+" open the pdf-equivalent to the active buffer.
+" 'open' only works on Mac OS X - on linux it has to be replaced with
+" gnome-open or an explicit pdf-viewer
+map <silent> <C-p> :!open -a skim %:t:r.pdf<CR>
+
+" show/hide the NERDTree filebrowser
 map <silent> <down> :NERDTreeToggle<CR>
 
-" Öffnet das Tag-List-Plugin
-map <silent> <up> :TlistToggle<CR>
+" toggle the Tagbar-PlugIn view
+map <silent> <up> :TagbarToggle<CR>
 
-" Stellt das Standard-Fenster wieder her
-map <silent> ,n :NERDTreeClose<CR>:TlistClose<CR>:set co=105<CR>:set lines=80<CR>
+" restore standard window layout
+map <silent> <leader>n :call <SID>DefaultWindow()<CR>
 
-" Maximiert das Fenster
-map <silent> ,m :set co=999<CR> :set lines=999<CR>
+" delete trailing whitespaces manually
+nmap <silent> <leader>t :call <SID>DeleteTrailings()<CR>
 
-" kompiliere und führe die aktuelle Java Datei aus
-map <silent> ,r :w<CR>:!javac % && java %:t:r<CR>
+" maximize the current window
+map <silent> <leader>m :set co=181<CR>
 
-" c kompilieren und ausfuehren
-map <silent> ,cr :w<CR>:!gcc -Wall -o %:t:r % && ./%:t:r<CR>
+" compile and run the active java-file
+map <silent> <leader>jr :!javac % && java %:t:r<CR>
 
-" zum nächsten Buffer
+" compile and run the active c-file
+map <silent> <leader>cr :!gcc -Wall -o %:t:r % && ./%:t:r<CR>
+
+map <silent> <leader>sr :!scalac % && scala %:t:r<CR>
+
+" go to the next buffer
 map <silent> <right> :bn<CR>
 
-" zum vorherigen Buffer
+" got to the previous buffer
 map <silent> <left> :bp<CR>
 
-" Textformatierung mit Q
+" format text with Q instead of gq
 map <silent> Q gq
 
-" Y soll vom Cursor bis zum Ende der Zeile kopieren
+" spilt line at current position - opposite of J
+nnoremap K i<CR><ESC>k$
+
+" align text with Tabularize
+nmap <tab> :Tab /
+vmap <tab> :Tab /
+
+" Y should copy from the current position to the end of line
 noremap <silent> Y y$
 
-" Vergrößerung / Verkleinerung des Fensters
+" scale the window up / down by 10 columns
 noremap <silent> <C-F12> :set co+=10<CR>
 noremap <silent> <C-F11> :set co-=10<CR>
 
-" Erstellt CTags-Datenbank
+" create ctags database of current location
 map <silent> <C-F10> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
-" markierter Text lässt sich nach unten und oben verschieben. Benötigt das
-" unimpared-Plugin
+" move marked text up / down by holding the command key (OS X only)
 if has("mac")
-    vmap <silent> <D-k> [egv
-    vmap <silent> <D-j> ]egv
+  vmap <silent> <D-k> [egv
+  vmap <silent> <D-j> ]egv
 endif
 
-" Shortcuts zum öffnen / Schließen des Qickfix-Menus
-map <silent> ,q :copen<CR>
-map <silent> ,qc :cclose<CR>
+" open / close the quickfix view
+map <silent> <leader>q :copen<CR>
+map <silent> <leader>qc :cclose<CR>
 
-" Tippfehler und so
+" save and restore vim Sessions
+noremap <silent> <leader>ss :mksession! ~/.vimtmp/latestSession<CR>:echo "Session saved!"<CR>
+noremap <silent> <leader>sl :source ~/.vimtmp/latestSession<CR>
+
+" toggle solarized background color
+"call togglebg#map("<F5>")
+" toggle between favorite dark and light colorschemes
+nnoremap <silent> <F5> :call <SID>ToggleColorScheme()<CR>
+
+" call CtrlP buffer explorer
+noremap <silent> <leader>b :CtrlPBuffer<CR>
+" call CtrlP file explorer
+noremap <silent> <leader>e :CtrlP<CR>
+
+" adjust very frequent mistakes
 iab esle else
 iab flase false
 iab ture true
 iab itme item
 
-" :w und :W Speichern beide ab
-cmap W w
+" }}}
 
-" Semicolon wie in Eclipse, automatisch ans Ende der zeile setzen
-inoremap ; <End>;
+"  consider local Vim Settings
+if filereadable(expand('~/.vimrc.local'))
+  source ~/.vimrc.local
+endif
 
-" Aligned nach Zeichen benötig das Tabularize plugin
-nmap <Tab> :Tab /
-vmap <Tab> :Tab /
-"nmap <silent> <leader>l= :Tab /=<CR>
-"vmap <silent> <leader>l= :Tab /=<CR>
-"nmap <silent> <leader>l: :Tab /:<CR>
-"vmap <silent> <leader>l: :Tab /:<CR>
-"nmap <leader>l<CR> :Tab /
-"vmap <leader>l<CR> :Tab /
-
-" Setzt automatisch die passende KLammer, wie in Eclipse
-inoremap <silent> {<CR> <Esc>:call <SID>PlaceCurlyBraces()<CR>$i<CR><CR><Up><Tab>
-
-" Zentriert suchergebnise
-noremap n nzz
-noremap N Nzz
-noremap * *zz
-noremap # #zz
-noremap g* g*zz
-noremap g# g#zz
-
-" Öffnet die Dateien (vorallem pdf aus LaTeX) in Skim
-map <silent> <C-p> :!open -a skim %:t:r.pdf<CR>
-
-" toggle for background for supported colorschemes
-call togglebg#map("<F5>")
+" vim: fdm=marker
