@@ -56,6 +56,11 @@
 "  Allgemeine Einstellungen
 " ==========================
 
+" Pathogen setup
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
+
+
 " Nicht streng an vi orientiert
 set nocompatible
 
