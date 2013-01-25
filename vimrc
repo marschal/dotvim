@@ -322,15 +322,16 @@ let g:EasyMotion_leader_key = '<leader><leader>'
 " CtrlP Plugin is invoked with ctrl-e
 let g:ctrlp_map = '<c-e>'
 let g:ctrlp_cmd = 'CtrlP'
-" work with dircetory of current file
-let g:ctrlp_working_path_mode = 1
-" do not rebuild cache every time called the first time after start up
-let g:ctrlp_clear_cache_on_exit = 0
 
 " Powerline
 " ---------
 let g:Powerline_theme = 'default'
 let g:Powerline_colorscheme = 'default'
+
+" work with dircetory of current file
+let g:ctrlp_working_path_mode = 1
+" do not rebuild cache every time called the first time after start up
+let g:ctrlp_clear_cache_on_exit = 0
 
 " Syntastic
 " ---------
