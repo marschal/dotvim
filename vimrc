@@ -310,7 +310,7 @@ let OmniCpp_ShowAccess = 1
 " -------------------
 " do not use standard <tab> to complete code, that is reserved for snipMate
 " use ctrl-space completion insted (Eclipse-like)
-"let g:SuperTabMappingForward = '<C-Space>'
+let g:SuperTabMappingForward = '<C-Space>'
 
 " EasyMotion
 " ----------
